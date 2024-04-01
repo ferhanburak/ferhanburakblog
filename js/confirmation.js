@@ -4,7 +4,7 @@ function displayConfirmationMessage() {
 }
 
 
-document.getElementById('myForm').addEventListener('submit', function(event) {
+document.getElementById('contactForm').addEventListener('submit', function(event) {
    
     event.preventDefault();
     
