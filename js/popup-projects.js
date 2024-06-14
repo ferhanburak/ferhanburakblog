@@ -1,47 +1,63 @@
 // Popup açma fonksiyonu
 function openModal(modalId) {
     var modal = document.getElementById(modalId);
-    modal.style.display = 'block';
+    if (modal) {
+        modal.style.display = 'block';
+    }
 }
 
 // Popup kapatma fonksiyonu
 function closeModal(modalId) {
     var modal = document.getElementById(modalId);
-    modal.style.display = 'none';
+    if (modal) {
+        modal.style.display = 'none';
+    }
 }
 
-// Interview Simulation popup açma
-const interviewLink = document.querySelector('.popup-link[href="#modalInterview"]');
-const spanInterview = document.getElementById('spanInterview');
+// Modal linklerini ve spanları içeren veri yapısı
+const modals = [
+    {
+        linkSelector: '.popup-link[href="#modalInterview"]',
+        spanId: 'spanInterview',
+        modalId: 'modalInterview'
+    },
+    {
+        linkSelector: '.popup-link[href="#modalBOTAS"]',
+        spanId: 'spanBOTAS',
+        modalId: 'modalBOTAS'
+    },
+    {
+        linkSelector: '.popup-link[href="#modalBlackjack"]',
+        spanId: 'spanBlackjack',
+        modalId: 'modalBlackjack'
+    },
+    {
+        linkSelector: '.popup-link[href="#modalCourseFeedback"]',
+        spanId: 'spanCourseFeedback',
+        modalId: 'modalCourseFeedback'
+    }
+];
 
-interviewLink.addEventListener('click', function() {
-    openModal('modalInterview');
-});
+// Her bir modal için açma ve kapama olaylarını tanımla
+modals.forEach(modal => {
+    const link = document.querySelector(modal.linkSelector);
+    const span = document.getElementById(modal.spanId);
 
-spanInterview.addEventListener('click', function() {
-    closeModal('modalInterview');
-});
+    if (link && span) {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            openModal(modal.modalId);
+        });
 
-// BOTAS Warehouse System popup açma
-const botasLink = document.querySelector('.popup-link[href="#modalBOTAS"]');
-const spanBOTAS = document.getElementById('spanBOTAS');
+        span.addEventListener('click', function() {
+            closeModal(modal.modalId);
+        });
 
-botasLink.addEventListener('click', function() {
-    openModal('modalBOTAS');
-});
-
-spanBOTAS.addEventListener('click', function() {
-    closeModal('modalBOTAS');
-});
-
-// 2D Blackjack popup açma
-const blackjackLink = document.querySelector('.popup-link[href="#modalBlackjack"]');
-const spanBlackjack = document.getElementById('spanBlackjack');
-
-blackjackLink.addEventListener('click', function() {
-    openModal('modalBlackjack');
-});
-
-spanBlackjack.addEventListener('click', function() {
-    closeModal('modalBlackjack');
+        // Click event listener for closing modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target == document.getElementById(modal.modalId)) {
+                closeModal(modal.modalId);
+            }
+        });
+    }
 });
