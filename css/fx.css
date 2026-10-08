@@ -1,0 +1,171 @@
+/* ==========================================================================
+   FX layer: playful motion on top of retro.css. Everything here is
+   decorative and switched off by prefers-reduced-motion (see bottom).
+   ========================================================================== */
+
+main { overflow-x: clip; }
+
+/* ---------- XP scroll bar ---------- */
+.xp { position: fixed; top: 0; left: 0; right: 0; height: 10px; z-index: 70; pointer-events: none; background: rgba(35, 36, 74, .08); }
+.xp-fill {
+  position: absolute; inset: 0 0 0 0;
+  background: repeating-linear-gradient(90deg, var(--mint) 0 10px, #7be3bd 10px 12px);
+  clip-path: inset(0 calc(100% - var(--p, 0) * 100%) 0 0);
+  transition: clip-path .12s steps(6);
+}
+.xp.full .xp-fill { background: repeating-linear-gradient(90deg, var(--sun) 0 10px, #ffe29a 10px 12px); }
+.xp-label { position: absolute; right: 6px; top: 12px; font-family: var(--font-pixel); font-size: .5rem; color: var(--primary-d); opacity: .8; }
+
+/* ---------- Section tints + battlement dividers ---------- */
+.section { position: relative; }
+#about { --tint: #fdeee3; }
+#experience { --tint: #e4f7ee; }
+#projects { --tint: #e0ddff; }
+#certificates { --tint: #fff3d1; }
+#contact { --tint: #ffe5ec; }
+#about, #experience, #projects, #certificates, #contact { background: var(--tint); }
+#about::before, #experience::before, #projects::before, #certificates::before, #contact::before {
+  content: ""; position: absolute; left: 0; right: 0; top: -16px; height: 16px; pointer-events: none;
+  background: repeating-linear-gradient(90deg, var(--tint) 0 32px, transparent 32px 64px);
+}
+
+/* ---------- Hero: sky, letters, typewriter ---------- */
+.hero { position: relative; }
+.hero .container { position: relative; z-index: 1; }
+.sky { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.sky .star { position: absolute; color: var(--sun); animation: twinkle 2.4s steps(2) infinite; }
+.sky .star[data-px] svg { filter: drop-shadow(0 0 4px rgba(255, 200, 87, .6)); }
+.sky .cloud { position: absolute; color: #fff; opacity: .9; filter: drop-shadow(5px 6px 0 rgba(118, 124, 196, .18)); animation: drift linear infinite; left: -160px; }
+@keyframes twinkle { 50% { opacity: .15; transform: scale(.7); } }
+@keyframes drift { to { transform: translateX(calc(100vw + 320px)); } }
+
+.ch { display: inline-block; animation: letterIn .7s cubic-bezier(.3, 1.7, .5, 1) calc(var(--i) * 55ms + .15s) backwards; cursor: default; }
+.ch:hover { animation: jiggle .45s ease; color: var(--accent); }
+@keyframes letterIn { from { transform: translateY(-60px) scale(.4) rotate(-20deg); opacity: 0; } }
+@keyframes jiggle { 25% { transform: translateY(-10px) rotate(-8deg); } 60% { transform: translateY(2px) rotate(6deg); } }
+
+.type { color: var(--primary); }
+.hero-role .cursor { color: var(--primary); animation: blink 1s steps(1) infinite; }
+
+.portrait.tilt { transform: perspective(800px) rotate(-2deg) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .18s ease-out; will-change: transform; }
+.portrait.tilt:hover { box-shadow: 18px 22px 36px rgba(118, 124, 196, .4), -8px -8px 18px rgba(255, 255, 255, .95), var(--clay-in); }
+.float-1 { animation-duration: 2.6s; }
+.float-2 { animation: bob 3.6s ease-in-out -1s infinite, spin3d 6s linear infinite; }
+.float-3 { animation: bob 3s ease-in-out -2s infinite; }
+@keyframes spin3d { 0%, 40% { rotate: y 0deg; } 60%, 100% { rotate: y 360deg; } }
+
+/* ---------- Ticker ---------- */
+.ticker {
+  overflow: hidden; margin: 1.5rem -3% 3.5rem; padding: .9rem 0; transform: rotate(-1.4deg);
+  background: linear-gradient(145deg, #7070e8, var(--primary-d)); color: #fff;
+  box-shadow: 0 10px 24px rgba(67, 67, 184, .3), inset 0 3px 6px rgba(255, 255, 255, .3), inset 0 -4px 8px rgba(0, 0, 0, .18);
+}
+.ticker-track { display: flex; width: max-content; animation: marquee 34s linear infinite; }
+.ticker:hover .ticker-track { animation-play-state: paused; }
+.ticker span { padding-right: 2rem; font-family: var(--font-pixel); font-size: .7rem; line-height: 1.6; white-space: nowrap; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ---------- Reveal variants (replaces the plain fade-up) ---------- */
+.js .reveal {
+  opacity: 0; transform: translateY(26px) scale(.98);
+  transition: opacity .6s ease var(--d, 0s), transform .75s cubic-bezier(.2, .9, .3, 1.25) var(--d, 0s);
+}
+.js .reveal[data-fx="left"] { transform: translateX(-70px) rotate(-2deg); }
+.js .reveal[data-fx="right"] { transform: translateX(70px) rotate(2deg); }
+.js .reveal[data-fx="pop"] { transform: scale(.65) rotate(-5deg); }
+.js .reveal.in { opacity: 1; transform: none; }
+.js .reveal.tilt.in { transform: perspective(800px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: opacity .6s ease, transform .2s ease-out; }
+
+.section-title [data-px] { transform-origin: 50% 80%; }
+.in .section-title [data-px] { animation: hopIn .8s cubic-bezier(.3, 1.6, .5, 1) .15s backwards; }
+@keyframes hopIn { from { transform: translateY(-30px) rotate(-40deg) scale(.4); opacity: 0; } }
+.section-title::after { content: ""; flex: 1; height: 8px; margin-left: .4rem; max-width: 160px; background: repeating-linear-gradient(90deg, var(--sun) 0 8px, transparent 8px 14px); transform-origin: left; }
+.in .section-title::after { animation: grow .7s steps(10) .3s backwards; }
+@keyframes grow { from { transform: scaleX(0); } }
+
+/* Staggered pops */
+.in .chips li { animation: pop .5s cubic-bezier(.3, 1.6, .5, 1) calc(var(--i, 0) * 35ms + .2s) backwards; }
+.in .stat-row li { animation: pop .6s cubic-bezier(.3, 1.6, .5, 1) calc(var(--i, 0) * 110ms + .25s) backwards; }
+.in.shelf .disc-art { animation: dropIn .8s cubic-bezier(.3, 1.4, .5, 1) calc(var(--i, 0) * 90ms + .2s) backwards; }
+.in.shelf .disc-name, .in.shelf .disc-year { animation: fadeUp .5s ease calc(var(--i, 0) * 90ms + .6s) backwards; }
+@keyframes pop { from { transform: scale(.4) rotate(-10deg); opacity: 0; } }
+@keyframes dropIn { 0% { transform: translateY(-140px) rotate(-200deg); opacity: 0; } 60% { opacity: 1; } 75% { transform: translateY(8px) rotate(10deg); } 100% { transform: none; } }
+@keyframes fadeUp { from { transform: translateY(8px); opacity: 0; } }
+
+/* Hover play */
+.chips li { transition: transform .2s cubic-bezier(.3, 1.8, .5, 1); }
+.chips li:hover { transform: translateY(-3px) rotate(-3deg) scale(1.06); }
+.card { transition: box-shadow .25s ease; }
+.timeline .card:hover { box-shadow: 14px 16px 28px rgba(118, 124, 196, .38), -8px -8px 18px rgba(255, 255, 255, .95), var(--clay-in); }
+.award-grid li:hover .award-icon { animation: wiggle .6s ease; }
+.contact-list li:hover i { animation: wiggle .6s ease; }
+@keyframes wiggle { 20% { transform: rotate(-14deg) scale(1.1); } 50% { transform: rotate(12deg) scale(1.1); } 80% { transform: rotate(-6deg); } }
+.brand:hover .brand-icon { animation: spin 0.8s steps(8); }
+.nav-links a:not(.clay-btn):hover { animation: hop .35s cubic-bezier(.3, 1.8, .5, 1); }
+@keyframes hop { 40% { transform: translateY(-4px); } }
+
+.clay-btn:hover { animation: jelly .6s ease; }
+@keyframes jelly { 30% { transform: scale(1.1, .9); } 50% { transform: scale(.94, 1.08); } 70% { transform: scale(1.04, .97); } }
+.clay-btn:active { animation: none; transform: scale(.94, .88) translateY(2px); }
+
+/* ---------- Console extras ---------- */
+.console[data-state="idle"] .tray { animation: invite 2.6s ease-in-out infinite; }
+@keyframes invite { 50% { box-shadow: inset 7px 7px 14px rgba(0, 0, 0, .55), inset -4px -4px 10px rgba(130, 136, 210, .3), 0 0 0 3px rgba(255, 200, 87, .55), 0 0 22px rgba(255, 200, 87, .4); } }
+.console.bump { animation: bump .42s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes bump { 30% { transform: scale(1.04, .94) rotate(-.6deg); } 60% { transform: scale(.98, 1.03) rotate(.5deg); } }
+.in .screen { animation: crtOn .7s steps(9) .35s backwards; }
+@keyframes crtOn { 0% { transform: scaleY(.04); filter: brightness(3); } 60% { transform: scaleY(1); filter: brightness(2); } }
+.console[data-state="loading"] .screen { animation: glitch .22s steps(2) 5; }
+@keyframes glitch { 0% { transform: translate(0); filter: none; } 33% { transform: translate(-4px, 1px) skewX(4deg); filter: hue-rotate(40deg); } 66% { transform: translate(4px, -1px) skewX(-4deg); filter: hue-rotate(-40deg); } }
+.console[data-state="open"] .screen-text { animation: blink 1.2s steps(1) infinite; }
+
+.disc[data-hint] .disc-art { animation: nudge 3.4s ease-in-out 2.2s infinite; }
+@keyframes nudge { 0%, 62%, 100% { transform: none; } 70% { transform: translate(18px, -14px) rotate(30deg); } 78% { transform: translate(-8px, 4px) rotate(-10deg); } 86% { transform: translate(12px, -8px) rotate(18deg); } }
+.disc:not(.dragging):not([aria-disabled]):hover .disc-art::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .85) 50%, transparent 65%); animation: shine .7s ease; }
+@keyframes shine { from { transform: translateX(-60%) rotate(0); opacity: 0; } 50% { opacity: 1; } to { transform: translateX(60%); opacity: 0; } }
+
+.arcade-bar { margin-top: 1.2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.arcade-bar .arcade-hint { margin: 0; }
+.snd {
+  display: inline-flex; align-items: center; gap: .5rem; padding: .5rem .85rem; border: 0; border-radius: 999px; cursor: pointer;
+  font-family: var(--font-pixel); font-size: .55rem; color: var(--ink); background: var(--surface);
+  box-shadow: 5px 5px 11px rgba(118, 124, 196, .35), -4px -4px 9px #fff, inset 2px 2px 4px rgba(255, 255, 255, .8);
+}
+.snd[aria-pressed="true"] { color: #14654b; box-shadow: inset 3px 3px 7px rgba(118, 124, 196, .3), inset -3px -3px 7px #fff; }
+.snd[aria-pressed="true"] b { color: var(--mint); }
+
+/* ---------- Dialog content stagger ---------- */
+.project-dialog[open] #dlgBody article > * { animation: rise .55s cubic-bezier(.2, .9, .3, 1.2) backwards; }
+.project-dialog[open] #dlgBody article > :nth-child(1) { animation-delay: .05s; }
+.project-dialog[open] #dlgBody article > :nth-child(2) { animation-delay: .12s; }
+.project-dialog[open] #dlgBody article > :nth-child(3) { animation-delay: .19s; }
+.project-dialog[open] #dlgBody article > :nth-child(4) { animation-delay: .26s; }
+.project-dialog[open] #dlgBody article > :nth-child(5) { animation-delay: .33s; }
+.project-dialog[open] #dlgBody article > :nth-child(6) { animation-delay: .4s; }
+@keyframes rise { from { transform: translateY(18px); opacity: 0; } }
+.dlg-icon { animation: bob 2.8s ease-in-out infinite; }
+
+/* ---------- Footer ---------- */
+.continue { display: inline-block; margin-top: 1rem; font-family: var(--font-pixel); font-size: .6rem; line-height: 1.8; color: var(--muted); text-decoration: none; }
+.continue b { color: var(--primary-d); animation: blink 1s steps(1) infinite; font-weight: 400; }
+.continue:hover b { color: var(--accent); }
+
+/* ---------- Particles + toast (created by js/fx.js) ---------- */
+.fx-px { position: fixed; z-index: 200; pointer-events: none; image-rendering: pixelated; }
+.fx-toast {
+  position: fixed; left: 50%; bottom: 28px; z-index: 210; transform: translateX(-50%);
+  padding: .9rem 1.3rem; border-radius: 18px; background: var(--ink); color: var(--sun);
+  font-family: var(--font-pixel); font-size: .65rem; line-height: 1.6; text-align: center;
+  box-shadow: 0 -4px 0 0 var(--sun), 0 4px 0 0 var(--sun), -4px 0 0 0 var(--sun), 4px 0 0 0 var(--sun), 0 14px 30px rgba(0, 0, 0, .3);
+  animation: toast 2.8s cubic-bezier(.3, 1.4, .5, 1) forwards; pointer-events: none;
+}
+@keyframes toast { 0% { transform: translate(-50%, 60px); opacity: 0; } 12%, 80% { transform: translate(-50%, 0); opacity: 1; } 100% { transform: translate(-50%, 20px); opacity: 0; } }
+
+/* ---------- Reduced motion: keep everything static ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .ticker { transform: none; }
+  .ticker-track { animation: none !important; }
+  .sky .cloud { display: none; }
+  .js .reveal, .js .reveal[data-fx] { opacity: 1; transform: none; }
+  .console[data-state="idle"] .tray, .disc[data-hint] .disc-art, .dlg-icon { animation: none !important; }
+}

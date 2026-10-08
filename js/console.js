@@ -24,6 +24,7 @@
   function setState(state) { consoleEl.setAttribute("data-state", state); }
   function setScreen(text) { screenText.textContent = text; }
   function art(disc) { return disc.querySelector(".disc-art"); }
+  function fx(name) { var a = [].slice.call(arguments, 1); if (window.FX && window.FX[name]) window.FX[name].apply(window.FX, a); }
 
   function artCenter(disc) {
     var r = art(disc).getBoundingClientRect();
@@ -86,7 +87,14 @@
         setState("loading");
         setScreen("LOADING " + name);
         consoleEl.style.setProperty("--load", t(900) + "ms");
-        return sleep(1000);
+        fx("bump", consoleEl);
+        fx("sound", "insert");
+        fx("burst", tr.left + tr.width / 2, tr.top + tr.height / 2, 18, ["#ffc857", "#7dffb2", "#ffffff", "#6ec6ff"]);
+        return sleep(300);
+      })
+      .then(function () {
+        fx("sound", "boot");
+        return sleep(700);
       })
       .then(function () {
         openDialog(disc);
@@ -106,6 +114,8 @@
     setState("open");
     setScreen("NOW PLAYING: " + titleOf(disc).toUpperCase());
     dialog.showModal();
+    fx("sound", "open");
+    fx("burst", window.innerWidth / 2, window.innerHeight * 0.3, 24);
     dialog.querySelector(".dlg-inner").scrollTop = 0;
   }
 
@@ -114,6 +124,7 @@
     if (!disc) { busy = false; setBusyUI(false); return; }
     setScreen("EJECTING...");
     setState("idle");
+    fx("sound", "eject");
     disc.classList.remove("inserted");
     disc.classList.add("snapping");
     disc.style.transform = "";
@@ -145,6 +156,7 @@
     disc.addEventListener("pointerdown", function (e) {
       if (busy || (e.pointerType === "mouse" && e.button !== 0)) return;
       pointerId = e.pointerId;
+      discs.forEach(function (d) { d.removeAttribute("data-hint"); });
       startX = e.clientX; startY = e.clientY;
       dragging = false;
       try { disc.setPointerCapture(pointerId); } catch (err) {}
@@ -157,6 +169,7 @@
         dragging = true;
         disc.classList.remove("snapping");
         disc.classList.add("dragging");
+        fx("sound", "pick");
       }
       if (dragging) {
         disc._tx = dx; disc._ty = dy;
@@ -184,6 +197,7 @@
 
     /* Keyboard: Enter / Space produce a click with detail === 0 */
     disc.addEventListener("click", function (e) {
+      discs.forEach(function (d) { d.removeAttribute("data-hint"); });
       if (e.detail === 0 && !busy) insert(disc);
     });
   });

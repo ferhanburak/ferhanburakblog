@@ -24,6 +24,7 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <link href="css/bootstrap-icons.css" rel="stylesheet">
     <link href="css/retro.css" rel="stylesheet">
+    <link href="css/fx.css" rel="stylesheet">
 
     <script>document.documentElement.classList.add("js");</script>
 
@@ -45,6 +46,7 @@
 
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
+    <div class="xp" aria-hidden="true"><span class="xp-fill"></span><span class="xp-label">XP</span></div>
 
     <header class="site-nav-wrap">
         <nav class="site-nav clay" aria-label="Main">
@@ -77,7 +79,7 @@
                 <div class="hero-text reveal">
                     <p class="kicker"><span data-px="coin" style="--px2:#ffc857;--px3:#a77a00"></span> Player 1 ready</p>
                     <h1>Ferhan Burak <span class="hl">Özkan</span></h1>
-                    <p class="hero-role">Software Engineer <span aria-hidden="true">·</span> Mobile <span aria-hidden="true">·</span> Frontend <span aria-hidden="true">·</span> AI</p>
+                    <p class="hero-role" aria-label="Software Engineer: Mobile, Frontend, AI">Software Engineer <span aria-hidden="true">·</span> <span class="type" data-words="Mobile apps|Web frontends|AI &amp; ML|Network security" aria-hidden="true">Mobile · Frontend · AI</span><span class="cursor" aria-hidden="true">_</span></p>
                     <p class="hero-lead">I ship end-to-end products, from a GPS app live on Google Play to an award-winning IoT healthcare project, using React Native, Flutter, Next.js, Firebase and machine learning.</p>
 
                     <ul class="hero-badges">
@@ -102,6 +104,13 @@
             </div>
         </section>
 
+        <div class="ticker" aria-hidden="true">
+            <div class="ticker-track">
+                <span>REACT NATIVE ★ FLUTTER ★ NEXT.JS ★ TYPESCRIPT ★ FIREBASE ★ PYTORCH ★ LLM FINE-TUNING ★ NETWORK SECURITY ★ GOOGLE PLAY LIVE ★</span>
+                <span>REACT NATIVE ★ FLUTTER ★ NEXT.JS ★ TYPESCRIPT ★ FIREBASE ★ PYTORCH ★ LLM FINE-TUNING ★ NETWORK SECURITY ★ GOOGLE PLAY LIVE ★</span>
+            </div>
+        </div>
+
         <!-- ABOUT -->
         <section class="section" id="about">
             <div class="container">
@@ -116,10 +125,10 @@
                         <p>I also have hands-on experience in network security and in open-source LLM fine-tuning and computer vision.</p>
 
                         <ul class="stat-row" aria-label="Highlights">
-                            <li><strong>3</strong><span>internships: CBERNET, Nokia, BOTAŞ</span></li>
-                            <li><strong>98%</strong><span>test accuracy, traffic-sign CNN</span></li>
-                            <li><strong>20+</strong><span>testers in Google Play closed testing</span></li>
-                            <li><strong>50+</strong><span>products in the BALSA Dekor catalog</span></li>
+                            <li><strong data-count="3">3</strong><span>internships: CBERNET, Nokia, BOTAŞ</span></li>
+                            <li><strong data-count="98" data-suffix="%">98%</strong><span>test accuracy, traffic-sign CNN</span></li>
+                            <li><strong data-count="20" data-suffix="+">20+</strong><span>testers in Google Play closed testing</span></li>
+                            <li><strong data-count="50" data-suffix="+">50+</strong><span>products in the BALSA Dekor catalog</span></li>
                         </ul>
                     </div>
 
@@ -240,11 +249,14 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="arcade-hint" aria-hidden="true"><span data-px="star" style="--px2:#fff;color:#ffc857"></span> 7 discs on the shelf</p>
+                        <div class="arcade-bar">
+                            <p class="arcade-hint" aria-hidden="true"><span data-px="star" style="--px2:#fff;color:#ffc857"></span> 7 discs on the shelf</p>
+                            <button class="snd" id="sndBtn" type="button" aria-pressed="false" aria-label="Sound effects: off"><span aria-hidden="true">SND</span> <b aria-hidden="true">OFF</b></button>
+                        </div>
                     </div>
 
                     <div class="shelf clay-inset reveal" role="group" aria-label="Project discs">
-                        <button type="button" class="disc" data-project="trackSnap" style="--d1:#5b5bd6;--d2:#6ec6ff" aria-label="TrackSnap. Drag into the console or press Enter to open">
+                        <button type="button" class="disc" data-hint="1" data-project="trackSnap" style="--d1:#5b5bd6;--d2:#6ec6ff" aria-label="TrackSnap. Drag into the console or press Enter to open">
                             <span class="disc-art"><span class="disc-label" data-px="pin" style="--px2:#fff"></span></span>
                             <span class="disc-name">TrackSnap</span><span class="disc-year">2026 –</span>
                         </button>
@@ -485,6 +497,7 @@
     <footer class="site-footer">
         <div class="container">
             <p>© <span id="year">2026</span> Ferhan Burak Özkan. Built with pixels and clay.</p>
+            <a class="continue" href="#home">GAME OVER? <b>CONTINUE ▶</b></a>
         </div>
     </footer>
 
@@ -497,6 +510,7 @@
     </dialog>
 
     <script src="js/pixel.js" defer></script>
+    <script src="js/fx.js" defer></script>
     <script src="js/main.js" defer></script>
     <script src="js/console.js" defer></script>
 </body>
