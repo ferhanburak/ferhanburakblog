@@ -383,6 +383,7 @@
     var h = clone.querySelector("h3");
     if (h) h.id = "dlgTitle";
     dlgBody.appendChild(clone);
+    [].slice.call(dlgBody.querySelectorAll("img")).forEach(function (im) { im.tabIndex = 0; im.setAttribute("role", "button"); im.title = "View full size"; });
     if (PX) PX.render(dlgBody);
     dlgCh.textContent = "CH " + String(carts.indexOf(cart) + 1).padStart(2, "0");
 
@@ -430,12 +431,40 @@
     });
   }
 
-  dialog.addEventListener("close", function () { if (active) eject(); });
+  /* Full-size image viewer inside the dialog */
+  var zoom = document.getElementById("zoom");
+  var zoomImg = document.getElementById("zoomImg");
+  var zoomFrom = null;
+  function openZoom(img) {
+    zoomImg.src = img.currentSrc || img.src;
+    zoomImg.alt = img.alt;
+    zoomFrom = img;
+    zoom.hidden = false;
+    zoom.querySelector(".zoom-close").focus();
+  }
+  function closeZoom() {
+    if (zoom.hidden) return false;
+    zoom.hidden = true;
+    zoomImg.removeAttribute("src");
+    if (zoomFrom) { try { zoomFrom.focus(); } catch (e) {} }
+    return true;
+  }
+  dlgBody.addEventListener("keydown", function (e) {
+    if ((e.key === "Enter" || e.key === " ") && e.target.tagName === "IMG") { e.preventDefault(); openZoom(e.target); }
+  });
+
+  dialog.addEventListener("close", function () { closeZoom(); if (active) eject(); });
+  dialog.addEventListener("cancel", function (e) { if (closeZoom()) e.preventDefault(); });
   dialog.addEventListener("click", function (e) {
+    if (!zoom.hidden) { closeZoom(); return; }
+    var img = e.target.closest && e.target.closest("#dlgBody img");
+    if (img) { openZoom(img); return; }
     if (e.target === dialog || e.target.closest("[data-close]")) dialog.close();
   });
   dialog.addEventListener("keydown", function (e) {
-    if ((e.key === "b" || e.key === "B") && !e.target.closest("input, textarea")) dialog.close();
+    if ((e.key === "b" || e.key === "B") && !e.target.closest("input, textarea")) {
+      if (!closeZoom()) dialog.close();
+    }
   });
 
   /* --- Dragging --- */

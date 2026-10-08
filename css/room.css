@@ -156,7 +156,7 @@
 .tv-bar { display: block; width: 70%; height: 1cqw; border: 0.25cqw solid var(--scr); }
 .tv-bar i { display: block; height: 100%; width: 0; background: repeating-linear-gradient(90deg, var(--scr) 0 0.8cqw, transparent 0.8cqw 1.1cqw); }
 .room[data-state="loading"] .tv-bar i { animation: load var(--load, 800ms) steps(10) forwards; }
-.tv-play img { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
+.tv-play img { width: 100%; height: 100%; object-fit: cover; }
 .tv-play span { position: absolute; left: 0; right: 0; bottom: 6%; text-align: center; font-family: var(--font-screen); font-size: 2.1cqw; color: #fff; text-shadow: 0 0.2cqw 0 #000, 0 0 0.5cqw #000; letter-spacing: .04em; }
 
 .room[data-state="loading"] .tv-face, .room[data-state="playing"] .tv-face { opacity: 0; }
@@ -260,9 +260,9 @@
   padding: calc(var(--cw) * .05); border-radius: calc(var(--cw) * .04); background: #fdfbf4;
   box-shadow: inset 0 0 0 calc(var(--cw) * .018) rgba(35, 36, 74, .12);
 }
-.cart-label img { width: 100%; height: auto; aspect-ratio: 4 / 3; image-rendering: pixelated; border-radius: 2px; }
+.cart-label img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 2px; }
 .cart-name {
-  margin-top: auto; font-family: var(--font-screen); font-size: calc(var(--cw) * .16); line-height: .9;
+  margin-top: auto; padding-top: 1px; font-family: var(--font-screen); font-size: calc(var(--cw) * .16); line-height: 1.1;
   color: var(--ink); text-align: center; white-space: nowrap; overflow: hidden; letter-spacing: .02em;
 }
 
@@ -320,6 +320,22 @@
 /* Phone screenshot strip inside a project */
 .dlg-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin: 0 0 1.1rem; }
 .dlg-gallery img { width: 100%; height: auto; border-radius: 16px; box-shadow: var(--clay-out); background: #0f1030; }
+
+/* Two desktop screenshots */
+.dlg-pair { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin: 0 0 1.1rem; }
+.dlg-pair img { width: 100%; height: auto; border-radius: 14px; box-shadow: var(--clay-out); }
+@media (max-width: 560px) { .dlg-pair { grid-template-columns: 1fr; } }
+
+/* Click any project image to view it full size */
+#dlgBody img { cursor: zoom-in; }
+.zoom {
+  position: fixed; inset: 0; z-index: 5; display: grid; place-items: center; padding: 3.5rem 1rem 1rem;
+  background: rgba(15, 16, 48, .92); cursor: zoom-out; animation: zoomIn .25s ease;
+}
+.zoom[hidden] { display: none; }
+.zoom img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 14px; box-shadow: 0 20px 50px rgba(0, 0, 0, .5); }
+.zoom-close { position: absolute; top: 12px; right: 12px; width: 42px; height: 42px; border: 0; border-radius: 50%; background: var(--surface); color: var(--ink); font-size: 1.5rem; cursor: pointer; }
+@keyframes zoomIn { from { opacity: 0; } }
 
 /* Phone + dashboard side by side */
 .dlg-duo { display: grid; grid-template-columns: 1fr 3.2fr; gap: .75rem; align-items: center; margin: 0 0 1.1rem; }
