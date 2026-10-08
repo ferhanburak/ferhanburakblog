@@ -145,29 +145,6 @@
     });
   }
 
-  /* Multi-colour sprite: rows of chars, palette maps char -> colour.
-     Horizontal runs of the same colour are merged into one rect. */
-  function sprite(rows, palette, cls) {
-    var h = rows.length;
-    var w = 0;
-    var out = "";
-    rows.forEach(function (row, y) {
-      if (row.length > w) w = row.length;
-      var x = 0;
-      while (x < row.length) {
-        var c = row.charAt(x);
-        var run = 1;
-        while (x + run < row.length && row.charAt(x + run) === c) run++;
-        if (palette[c]) {
-          out += '<rect x="' + x + '" y="' + y + '" width="' + run + '" height="1" fill="' + palette[c] + '"/>';
-        }
-        x += run;
-      }
-    });
-    return '<svg class="' + (cls || "") + '" viewBox="0 0 ' + w + " " + h +
-      '" shape-rendering="crispEdges" aria-hidden="true" focusable="false">' + out + "</svg>";
-  }
-
-  window.PX = { svg: svg, render: render, sprite: sprite, ICONS: ICONS };
+  window.PX = { svg: svg, render: render, ICONS: ICONS };
   render(document);
 })();

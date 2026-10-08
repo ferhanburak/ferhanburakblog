@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="robots" content="noindex">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Ferhan Burak Özkan — Software Engineer</title>
@@ -25,7 +26,6 @@
     <link href="css/bootstrap-icons.css" rel="stylesheet">
     <link href="css/retro.css" rel="stylesheet">
     <link href="css/fx.css" rel="stylesheet">
-    <link href="css/room.css" rel="stylesheet">
 
     <script>document.documentElement.classList.add("js");</script>
 
@@ -222,110 +222,70 @@
         </section>
 
         <!-- PROJECTS: the console -->
-        <section class="section" id="projects">
+        <section class="section section-arcade" id="projects">
             <div class="container">
                 <header class="section-head reveal">
                     <h2 class="section-title"><span data-px="gamepad" style="--px3:#fff"></span> Projects</h2>
-                    <p class="section-sub">Pick a cartridge from the shelf and drop it into the console. You can also tap it, or use ← → and Enter.</p>
+                    <p class="section-sub">Drag a disc into the console to launch a project. On touch or keyboard, just tap or press Enter on a disc.</p>
                 </header>
 
-                <div class="room-wrap reveal">
-                    <div class="room" id="room" data-state="idle" data-time="day">
-                        <div class="scene" aria-hidden="true">
-                            <div class="wall"></div>
-                            <div class="floor"></div>
-
-                            <div class="window">
-                                <div class="win-sky">
-                                    <span class="sun" data-sprite="sun"></span>
-                                    <span class="moon" data-sprite="moon"></span>
-                                    <span class="w-cloud" data-sprite="cloud"></span>
-                                    <span class="w-cloud w-cloud-2" data-sprite="cloud"></span>
-                                    <span class="w-star" style="left:18%;top:20%"></span>
-                                    <span class="w-star" style="left:64%;top:14%;animation-delay:-.7s"></span>
-                                    <span class="w-star" style="left:40%;top:46%;animation-delay:-1.3s"></span>
-                                    <span class="w-star" style="left:80%;top:56%;animation-delay:-.4s"></span>
+                <div class="arcade">
+                    <div class="console-wrap reveal">
+                        <div class="console clay" id="console" data-state="idle">
+                            <div class="console-top">
+                                <div class="tray" id="tray">
+                                    <span class="tray-slot" aria-hidden="true"></span>
+                                    <span class="tray-hint" aria-hidden="true">DROP DISC HERE</span>
                                 </div>
-                                <span class="sill"></span>
                             </div>
-
-                            <div class="clock"><span class="hand hand-h"></span><span class="hand hand-m"></span></div>
-                            <span class="plant" data-sprite="plant"></span>
-                            <span class="rug"></span>
-
-                            <div class="cabinet"><span class="drawer"></span><span class="drawer"></span></div>
-                            <span class="lamp" data-sprite="lamp"><i class="glow"></i></span>
-
-                            <div class="tv" id="tv">
-                                <span class="antenna"></span>
-                                <div class="tv-body">
-                                    <div class="tv-screen" id="tvScreen">
-                                        <div class="tv-face" id="tvFace"></div>
-                                        <canvas class="tv-noise" id="tvNoise" width="64" height="40"></canvas>
-                                        <div class="tv-load" id="tvLoad"><span id="tvLoadText">LOADING</span><span class="tv-bar"><i></i></span></div>
-                                        <div class="tv-play" id="tvPlay"><img id="tvImg" src="images/carts/tracksnap-px.png" alt=""><span id="tvTitle"></span></div>
-                                    </div>
-                                    <div class="tv-side"><span class="knob"></span><span class="knob knob-2"></span><span class="grille"></span></div>
+                            <div class="console-face">
+                                <div class="screen" role="status" aria-live="polite">
+                                    <span class="screen-text" id="screenText">INSERT DISC</span><span class="cursor" aria-hidden="true">_</span>
+                                    <span class="screen-bar" id="screenBar" aria-hidden="true"><i></i></span>
                                 </div>
-                                <span class="tv-feet"></span>
+                                <div class="console-meta" aria-hidden="true">
+                                    <span class="led" id="ledPower"></span>
+                                    <span class="led led-disc"></span>
+                                    <span class="console-brand">PX-7</span>
+                                </div>
                             </div>
-
-                            <svg class="cable" viewBox="0 0 100 40" preserveAspectRatio="none"><path d="M2 2 C 20 40, 70 0, 98 36"/></svg>
-
-                            <div class="console" id="console">
-                                <span class="c-top"><span class="slot" id="slot"></span></span>
-                                <span class="c-front"><span class="wood"></span><span class="switch"></span><span class="switch switch-2"></span><span class="c-led"></span><span class="c-badge">PX-7</span></span>
-                            </div>
-
-                            <span class="pouf"></span>
-                            <span class="pad" data-px="gamepad" style="--px3:#fff"></span>
                         </div>
+                        <div class="arcade-bar">
+                            <p class="arcade-hint" aria-hidden="true"><span data-px="star" style="--px2:#fff;color:#ffc857"></span> 7 discs on the shelf</p>
+                            <button class="snd" id="sndBtn" type="button" aria-pressed="false" aria-label="Sound effects: off"><span aria-hidden="true">SND</span> <b aria-hidden="true">OFF</b></button>
+                        </div>
+                    </div>
 
-                        <button class="cat" id="cat" type="button" aria-label="Pet the cat">
-                            <span class="cat-f cat-f1" data-sprite="cat1"></span>
-                            <span class="cat-f cat-f2" data-sprite="cat2"></span>
-                            <span class="cat-z" aria-hidden="true">z</span>
-                            <span class="cat-bubble" aria-hidden="true">MEOW!</span>
+                    <div class="shelf clay-inset reveal" role="group" aria-label="Project discs">
+                        <button type="button" class="disc" data-hint="1" data-project="trackSnap" style="--d1:#5b5bd6;--d2:#6ec6ff" aria-label="TrackSnap. Drag into the console or press Enter to open">
+                            <span class="disc-art"><span class="disc-label" data-px="pin" style="--px2:#fff"></span></span>
+                            <span class="disc-name">TrackSnap</span><span class="disc-year">2026 –</span>
                         </button>
-
-                        <div class="shelf" id="shelf" role="toolbar" aria-label="Project cartridges">
-                            <ul class="shelf-row">
-                                <li class="cell"><button type="button" class="cart" data-project="trackSnap" data-short="TRACKSNAP" data-year="2026" data-blurb="Drive, meet up, build a convoy. GPS app live on Google Play" style="--c1:#5a7d1e" tabindex="0" aria-label="TrackSnap cartridge (2026). Drag into the console, or press Enter to play">
-                                    <span class="cart-shell" aria-hidden="true"><span class="cart-grip"></span><span class="cart-label"><img src="images/carts/tracksnap-px.png" alt="" width="48" height="36" loading="lazy"><span class="cart-name">TRACKSNAP</span></span></span>
-                                </button></li>
-                                <li class="cell"><button type="button" class="cart" data-project="balsa" data-short="BALSA" data-year="2026" data-blurb="Furniture catalog and admin web app, live at balsadekor.com" style="--c1:#c9733f" tabindex="-1" aria-label="BALSA Dekor cartridge (2026). Drag into the console, or press Enter to play">
-                                    <span class="cart-shell" aria-hidden="true"><span class="cart-grip"></span><span class="cart-label"><img src="images/carts/balsa-px.png" alt="" width="48" height="36" loading="lazy"><span class="cart-name">BALSA</span></span></span>
-                                </button></li>
-                                <li class="cell"><button type="button" class="cart" data-project="scolisense" data-short="SCOLISENSE" data-year="2024" data-blurb="Real-time IoT healthcare app. 1st place, R&amp;D Market" style="--c1:#1b9fb0" tabindex="-1" aria-label="ScoliSense cartridge (2024). Drag into the console, or press Enter to play">
-                                    <span class="cart-shell" aria-hidden="true"><span class="cart-grip"></span><span class="cart-label"><img src="images/carts/scolisense-px.png" alt="" width="48" height="36" loading="lazy"><span class="cart-name">SCOLISENSE</span></span></span>
-                                </button></li>
-                                <li class="cell"><button type="button" class="cart" data-project="ai" data-short="AI LAB" data-year="2025" data-blurb="Turkish LLM fine-tuning and a 98% accurate traffic-sign CNN" style="--c1:#2fa882" tabindex="-1" aria-label="Applied AI / ML cartridge (2025). Drag into the console, or press Enter to play">
-                                    <span class="cart-shell" aria-hidden="true"><span class="cart-grip"></span><span class="cart-label"><img src="images/carts/ai-px.png" alt="" width="48" height="36" loading="lazy"><span class="cart-name">AI LAB</span></span></span>
-                                </button></li>
-                            </ul>
-                            <ul class="shelf-row">
-                                <li class="cell"><button type="button" class="cart" data-project="botas" data-short="BOTAŞ" data-year="2023" data-blurb="Flutter warehouse app with on-device ML recognition" style="--c1:#d64545" tabindex="-1" aria-label="BOTAŞ Warehouse cartridge (2023). Drag into the console, or press Enter to play">
-                                    <span class="cart-shell" aria-hidden="true"><span class="cart-grip"></span><span class="cart-label"><img src="images/carts/botas-px.png" alt="" width="48" height="36" loading="lazy"><span class="cart-name">BOTAŞ</span></span></span>
-                                </button></li>
-                                <li class="cell"><button type="button" class="cart" data-project="interview" data-short="INTERVIEW" data-year="2023" data-blurb="Job interviews turned into a card game" style="--c1:#8a5bd6" tabindex="-1" aria-label="Interview Sim cartridge (2023). Drag into the console, or press Enter to play">
-                                    <span class="cart-shell" aria-hidden="true"><span class="cart-grip"></span><span class="cart-label"><img src="images/carts/interview-px.png" alt="" width="48" height="36" loading="lazy"><span class="cart-name">INTERVIEW</span></span></span>
-                                </button></li>
-                                <li class="cell"><button type="button" class="cart" data-project="blackjack" data-short="BLACKJACK" data-year="2022" data-blurb="Place your bet and play to win" style="--c1:#2b2d5e" tabindex="-1" aria-label="2D Blackjack cartridge (2022). Drag into the console, or press Enter to play">
-                                    <span class="cart-shell" aria-hidden="true"><span class="cart-grip"></span><span class="cart-label"><img src="images/carts/blackjack-px.png" alt="" width="48" height="36" loading="lazy"><span class="cart-name">BLACKJACK</span></span></span>
-                                </button></li>
-                                <li class="cell cell-trophy"><button type="button" class="trophy" id="trophy" aria-label="Trophy: 1st place at Çankaya University's 18th R&amp;D Market" tabindex="-1"><span data-sprite="trophy"></span></button></li>
-                            </ul>
-                        </div>
+                        <button type="button" class="disc" data-project="balsa" style="--d1:#e8745f;--d2:#ffc857" aria-label="BALSA Dekor. Drag into the console or press Enter to open">
+                            <span class="disc-art"><span class="disc-label" data-px="store" style="--px2:#fff;--px3:#ffc857"></span></span>
+                            <span class="disc-name">BALSA Dekor</span><span class="disc-year">2026 –</span>
+                        </button>
+                        <button type="button" class="disc" data-project="scolisense" style="--d1:#e0527a;--d2:#ffa3b8" aria-label="ScoliSense. Drag into the console or press Enter to open">
+                            <span class="disc-art"><span class="disc-label" data-px="heart" style="--px2:#fff"></span></span>
+                            <span class="disc-name">ScoliSense</span><span class="disc-year">2024 –</span>
+                        </button>
+                        <button type="button" class="disc" data-project="ai" style="--d1:#2fa882;--d2:#9be7c4" aria-label="Applied AI and ML. Drag into the console or press Enter to open">
+                            <span class="disc-art"><span class="disc-label" data-px="chip" style="--px2:#fff"></span></span>
+                            <span class="disc-name">Applied AI / ML</span><span class="disc-year">2025</span>
+                        </button>
+                        <button type="button" class="disc" data-project="botas" style="--d1:#3b6fd0;--d2:#9cc0ff" aria-label="BOTAŞ Warehouse System. Drag into the console or press Enter to open">
+                            <span class="disc-art"><span class="disc-label" data-px="box" style="--px3:#fff"></span></span>
+                            <span class="disc-name">BOTAŞ Warehouse</span><span class="disc-year">2023</span>
+                        </button>
+                        <button type="button" class="disc" data-project="interview" style="--d1:#8a5bd6;--d2:#d5b8ff" aria-label="Interview Simulation. Drag into the console or press Enter to open">
+                            <span class="disc-art"><span class="disc-label" data-px="bubble" style="--px2:#fff"></span></span>
+                            <span class="disc-name">Interview Sim</span><span class="disc-year">2023</span>
+                        </button>
+                        <button type="button" class="disc" data-project="blackjack" style="--d1:#2b2d5e;--d2:#7d80c8" aria-label="2D Blackjack. Drag into the console or press Enter to open">
+                            <span class="disc-art"><span class="disc-label" data-px="spade"></span></span>
+                            <span class="disc-name">2D Blackjack</span><span class="disc-year">2022</span>
+                        </button>
                     </div>
-
-                    <div class="textbox">
-                        <div class="tb-text">
-                            <p class="tb-main"><span class="tb-arrow" aria-hidden="true">▶</span> <span id="tbText">Choose a cartridge.</span></p>
-                            <p class="tb-hint" id="tbHint">Drag a cartridge into the console · ← → select · Enter play · Esc eject</p>
-                        </div>
-                        <button class="snd" id="sndBtn" type="button" aria-pressed="false" aria-label="Sound effects: off"><span aria-hidden="true">SND</span> <b aria-hidden="true">OFF</b></button>
-                    </div>
-                    <p class="sr-only" id="roomStatus" role="status" aria-live="polite"></p>
                 </div>
             </div>
 
@@ -341,17 +301,11 @@
                         </div>
                     </header>
                     <ul class="badges"><li class="chip chip-mint">Live on Google Play</li><li class="chip">Production track approved</li><li class="chip">iOS App Store review in progress</li></ul>
-                    <img class="dlg-shot" src="images/carts/tracksnap.webp" alt="TrackSnap Play Store banner: Sür. Buluş. Konvoy kur." loading="lazy">
                     <ul class="points">
                         <li>Architected a mobile app with React Native, Expo Router and TypeScript (React 19), paired with a React, Vite and Tailwind admin portal.</li>
                         <li>Delivered GPS tracking and live map views with Google Maps SDK, Expo Location and Task Manager.</li>
                         <li>Built the backend on Firebase (Auth, Firestore, Realtime DB, Cloud Functions), secured with App Check (Play Integrity) and covered by Vitest, React Testing Library and the Firebase Emulator Suite.</li>
                         <li>Ran the full Google Play release: closed testing with 20+ active testers, automated EAS production AAB builds and store compliance.</li>
-                    </ul>
-                    <ul class="dlg-gallery">
-                        <li><img src="images/carts/tracksnap-01-surus.webp" alt="TrackSnap drive screen showing speed, distance and the Start Drive button" loading="lazy" width="360" height="640"></li>
-                        <li><img src="images/carts/tracksnap-02-harita.webp" alt="TrackSnap live map of Ankara with meetups and friends" loading="lazy" width="360" height="640"></li>
-                        <li><img src="images/carts/tracksnap-04-konvoy.webp" alt="TrackSnap convoy screen with participants and trust score" loading="lazy" width="360" height="640"></li>
                     </ul>
                     <ul class="chips"><li>React Native</li><li>Expo Router</li><li>TypeScript</li><li>Firebase</li><li>Google Maps SDK</li><li>Vite</li><li>Vitest</li><li>EAS Build</li></ul>
                     <!-- TODO: add the Google Play listing URL as a link here -->
@@ -366,7 +320,6 @@
                         </div>
                     </header>
                     <ul class="badges"><li class="chip chip-mint">Live website</li></ul>
-                    <img class="dlg-shot" src="images/carts/balsa.webp" alt="Screenshot of the BALSA Dekor website" loading="lazy">
                     <ul class="points">
                         <li>Engineered and deployed a production catalog showcase for 50+ custom furniture products with Next.js, React, Tailwind CSS and Framer Motion for sub-second page transitions.</li>
                         <li>Built a secure admin panel on Firebase Auth, Firestore and Storage to manage inventory, update listings, track sales and handle process inquiries.</li>
@@ -385,10 +338,6 @@
                         </div>
                     </header>
                     <ul class="badges"><li class="chip chip-accent">1st place, Çankaya Univ. 18th R&amp;D Market</li><li class="chip">TÜBİTAK 2209-A funded</li><li class="chip">Patent pending</li></ul>
-                    <div class="dlg-duo">
-                        <img src="images/carts/scolisense-app.webp" alt="ScoliSense mobile app login screen with the spine logo" loading="lazy" width="360" height="571">
-                        <img src="images/carts/scolisense-dash.webp" alt="ScoliSense clinician dashboard with patient, schedule, activity and report counts and an age-group chart (personal data blurred)" loading="lazy" width="1100" height="598">
-                    </div>
                     <ul class="points">
                         <li>Built a cross-platform Flutter (Dart) app that streams live pressure data from an Arduino-based smart scoliosis brace over Bluetooth Low Energy.</li>
                         <li>Developed an Angular clinician portal synced through Firebase Realtime Database and Auth to track brace wear time, compliance graphs and sensor history.</li>
@@ -555,19 +504,9 @@
 
     <!-- Project dialog -->
     <dialog id="projectDialog" class="project-dialog" aria-labelledby="dlgTitle">
-        <div class="dlg-inner">
-            <div class="dlg-bar">
-                <span class="dlg-ch" id="dlgCh">CH 01</span>
-                <span class="dlg-now" aria-hidden="true">● NOW PLAYING</span>
-                <button class="dlg-close" type="button" aria-label="Eject cartridge and close" data-close>⏏</button>
-            </div>
-            <div class="dlg-scroll">
-                <div id="dlgBody"></div>
-                <div class="dlg-foot">
-                    <button class="clay-btn clay-btn-ghost clay-btn-sm" type="button" data-close><span aria-hidden="true">⏏</span> Eject cartridge</button>
-                    <span class="dlg-keys" aria-hidden="true">ESC / B</span>
-                </div>
-            </div>
+        <div class="dlg-inner clay">
+            <button class="dlg-close" type="button" aria-label="Close project and eject disc" data-close>&times;</button>
+            <div id="dlgBody"></div>
         </div>
     </dialog>
 

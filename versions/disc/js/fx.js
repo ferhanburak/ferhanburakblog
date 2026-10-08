@@ -95,9 +95,7 @@
     open: [[784, 0, 0.08], [1046, 0.09, 0.2]],
     eject: [[784, 0, 0.08], [523, 0.09, 0.14]],
     click: [[660, 0, 0.05]],
-    level: [[523, 0, 0.1], [659, 0.1, 0.1], [784, 0.2, 0.1], [1046, 0.3, 0.25]],
-    meow: [[740, 0, 0.07], [880, 0.07, 0.06], [587, 0.14, 0.2]],
-    nope: [[220, 0, 0.12], [196, 0.13, 0.16]]
+    level: [[523, 0, 0.1], [659, 0.1, 0.1], [784, 0.2, 0.1], [1046, 0.3, 0.25]]
   };
   FX.sound = function (name) {
     if (!soundOn) return;
@@ -203,7 +201,7 @@
   mark(".hero-visual", function (el) { el.setAttribute("data-fx", "pop"); });
   mark(".stat-row li", function (el, i) { el.style.setProperty("--i", i); });
   mark(".skills .chips li", function (el, i) { el.style.setProperty("--i", i); });
-  mark(".shelf .cart", function (el, i) { el.style.setProperty("--i", i); });
+  mark(".shelf .disc", function (el, i) { el.style.setProperty("--i", i); });
 
   /* ---------- Counters ---------- */
   var counters = [].slice.call(document.querySelectorAll("[data-count]"));

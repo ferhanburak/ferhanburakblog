@@ -86,6 +86,8 @@ main { overflow-x: clip; }
 /* Staggered pops */
 .in .chips li { animation: pop .5s cubic-bezier(.3, 1.6, .5, 1) calc(var(--i, 0) * 35ms + .2s) backwards; }
 .in .stat-row li { animation: pop .6s cubic-bezier(.3, 1.6, .5, 1) calc(var(--i, 0) * 110ms + .25s) backwards; }
+.in.shelf .disc-art { animation: dropIn .8s cubic-bezier(.3, 1.4, .5, 1) calc(var(--i, 0) * 90ms + .2s) backwards; }
+.in.shelf .disc-name, .in.shelf .disc-year { animation: fadeUp .5s ease calc(var(--i, 0) * 90ms + .6s) backwards; }
 @keyframes pop { from { transform: scale(.4) rotate(-10deg); opacity: 0; } }
 @keyframes dropIn { 0% { transform: translateY(-140px) rotate(-200deg); opacity: 0; } 60% { opacity: 1; } 75% { transform: translateY(8px) rotate(10deg); } 100% { transform: none; } }
 @keyframes fadeUp { from { transform: translateY(8px); opacity: 0; } }
@@ -106,11 +108,28 @@ main { overflow-x: clip; }
 @keyframes jelly { 30% { transform: scale(1.1, .9); } 50% { transform: scale(.94, 1.08); } 70% { transform: scale(1.04, .97); } }
 .clay-btn:active { animation: none; transform: scale(.94, .88) translateY(2px); }
 
-/* ---------- Sound toggle ---------- */
+/* ---------- Console extras ---------- */
+.console[data-state="idle"] .tray { animation: invite 2.6s ease-in-out infinite; }
+@keyframes invite { 50% { box-shadow: inset 7px 7px 14px rgba(0, 0, 0, .55), inset -4px -4px 10px rgba(130, 136, 210, .3), 0 0 0 3px rgba(255, 200, 87, .55), 0 0 22px rgba(255, 200, 87, .4); } }
+.console.bump { animation: bump .42s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes bump { 30% { transform: scale(1.04, .94) rotate(-.6deg); } 60% { transform: scale(.98, 1.03) rotate(.5deg); } }
+.in .screen { animation: crtOn .7s steps(9) .35s backwards; }
+@keyframes crtOn { 0% { transform: scaleY(.04); filter: brightness(3); } 60% { transform: scaleY(1); filter: brightness(2); } }
+.console[data-state="loading"] .screen { animation: glitch .22s steps(2) 5; }
+@keyframes glitch { 0% { transform: translate(0); filter: none; } 33% { transform: translate(-4px, 1px) skewX(4deg); filter: hue-rotate(40deg); } 66% { transform: translate(4px, -1px) skewX(-4deg); filter: hue-rotate(-40deg); } }
+.console[data-state="open"] .screen-text { animation: blink 1.2s steps(1) infinite; }
+
+.disc[data-hint] .disc-art { animation: nudge 3.4s ease-in-out 2.2s infinite; }
+@keyframes nudge { 0%, 62%, 100% { transform: none; } 70% { transform: translate(18px, -14px) rotate(30deg); } 78% { transform: translate(-8px, 4px) rotate(-10deg); } 86% { transform: translate(12px, -8px) rotate(18deg); } }
+.disc:not(.dragging):not([aria-disabled]):hover .disc-art::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .85) 50%, transparent 65%); animation: shine .7s ease; }
+@keyframes shine { from { transform: translateX(-60%) rotate(0); opacity: 0; } 50% { opacity: 1; } to { transform: translateX(60%); opacity: 0; } }
+
+.arcade-bar { margin-top: 1.2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.arcade-bar .arcade-hint { margin: 0; }
 .snd {
-  display: inline-flex; align-items: center; gap: .5rem; padding: .5rem .85rem; border: 0; border-radius: 999px; cursor: pointer; flex: none;
+  display: inline-flex; align-items: center; gap: .5rem; padding: .5rem .85rem; border: 0; border-radius: 999px; cursor: pointer;
   font-family: var(--font-pixel); font-size: .55rem; color: var(--ink); background: var(--surface);
-  box-shadow: 5px 5px 11px rgba(0, 0, 0, .25), -2px -2px 6px rgba(255, 255, 255, .25), inset 2px 2px 4px rgba(255, 255, 255, .8);
+  box-shadow: 5px 5px 11px rgba(118, 124, 196, .35), -4px -4px 9px #fff, inset 2px 2px 4px rgba(255, 255, 255, .8);
 }
 .snd[aria-pressed="true"] { color: #14654b; box-shadow: inset 3px 3px 7px rgba(118, 124, 196, .3), inset -3px -3px 7px #fff; }
 .snd[aria-pressed="true"] b { color: var(--mint); }
@@ -148,5 +167,5 @@ main { overflow-x: clip; }
   .ticker-track { animation: none !important; }
   .sky .cloud { display: none; }
   .js .reveal, .js .reveal[data-fx] { opacity: 1; transform: none; }
-  .dlg-icon { animation: none !important; }
+  .console[data-state="idle"] .tray, .disc[data-hint] .disc-art, .dlg-icon { animation: none !important; }
 }
