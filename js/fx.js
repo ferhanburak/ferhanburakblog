@@ -311,6 +311,26 @@
     }, { passive: true });
   }
 
+  /* ---------- Hero card flip: photo <-> pixel art ---------- */
+  var flip = document.getElementById("flip");
+  var flipTag = document.getElementById("flipTag");
+  if (flip) {
+    flip.addEventListener("click", function (e) {
+      var on = flip.getAttribute("aria-pressed") !== "true";
+      flip.setAttribute("aria-pressed", String(on));
+      flip.setAttribute("aria-label", on ? "Flip the card back to my photo" : "Flip the card to see my pixel-art version");
+      if (flipTag) flipTag.textContent = on ? "PHOTO MODE" : "8-BIT MODE";
+      var r = flip.getBoundingClientRect();
+      FX.burst(e.clientX || r.left + r.width / 2, e.clientY || r.top + r.height / 2, 16);
+      FX.sound(on ? "insert" : "eject");
+    });
+    /* one gentle peek after load so people notice it can flip */
+    if (!reduced()) setTimeout(function () {
+      flip.classList.add("peek");
+      setTimeout(function () { flip.classList.remove("peek"); }, 1500);
+    }, 2600);
+  }
+
   /* ---------- Konami code ---------- */
   var KONAMI = ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright", "b", "a"];
   var pos = 0;

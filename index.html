@@ -96,7 +96,13 @@
 
                 <div class="hero-visual reveal">
                     <div class="portrait clay">
-                        <img src="images/FOTO.jpg" alt="Portrait of Ferhan Burak Özkan" width="725" height="796">
+                        <button class="flip" id="flip" type="button" aria-pressed="false" aria-label="Flip the card to see my pixel-art version">
+                            <span class="flip-inner">
+                                <img class="flip-front" src="images/FOTO.jpg" alt="Portrait of Ferhan Burak Özkan" width="725" height="796">
+                                <img class="flip-back" src="images/avatar-pixel.webp" alt="Pixel-art portrait of Ferhan Burak Özkan" width="800" height="800" loading="lazy">
+                            </span>
+                        </button>
+                        <span class="flip-tag" aria-hidden="true"><span class="flip-tag-icon">↻</span> <span id="flipTag">8-BIT MODE</span></span>
                     </div>
                     <span class="float float-1" data-px="star" style="--px2:#fff"></span>
                     <span class="float float-2" data-px="heart" style="--px2:#fff"></span>
